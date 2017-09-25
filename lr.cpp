@@ -212,4 +212,7 @@ int main(int argc,char** argv){
 	
 	cout<<"Blad: "<<osg<<endl;
 	wypisz(out,w,ww);
+	if(fw){
+		fw.close();
+	}
 }
