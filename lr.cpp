@@ -3,18 +3,12 @@
 #include <istream>
 #include <fstream>
 #include <cstring>
+#include <iomanip>
+
+#include "lr.h"
 
 
 using namespace std;
-typedef struct{
-	int* it;
-	bool* dbg;
-	double* alfa;
-	double* eps;
-	istream** ist;
-	ifstream* fb;
-	int* msprz;
-} par;
 
 
 void arg(int argc, char** argv, par parametry){
@@ -25,6 +19,20 @@ void arg(int argc, char** argv, par parametry){
 			parametry.fb->open(argv[1]);
 			if(*(parametry.fb)){
 					*(parametry.ist)=parametry.fb;
+				}else{
+					cerr<<"blad otwarcia pliku"<<endl;
+					exit(-1);
+				}
+			argv++;
+			argc--;
+			continue;
+		}
+		if(strcmp("-out", argv[1])==0){
+			argv++;
+			argc--;
+			parametry.fw->open(argv[1]);
+			if(*(parametry.fb)){
+					*(parametry.out)=parametry.fw;
 				}else{
 					cerr<<"blad otwarcia pliku"<<endl;
 					exit(-1);
@@ -118,6 +126,14 @@ double uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, 
 	return osg;
 }
 
+void wypisz(ostream& out, double *w,int ww){
+	out<<ww<<setprecision(15)<<endl;
+	for(int i=0;i<ww;i++){
+		out<<w[i]<<" ";
+	}
+	out<<endl;
+} 
+
 int main(int argc,char** argv){
 	int it=1000;
 	int msprz=2;
@@ -125,10 +141,13 @@ int main(int argc,char** argv){
 	double alfa=1;
 	double eps=0.0001;
 	istream* ist=&cin;
+	ostream* ost=&cout;
 	ifstream fb;
-	par parametry={&it,&dbg,&alfa,&eps,&ist,&fb,&msprz};
+	ofstream fw;
+	par parametry={&it,&dbg,&alfa,&eps,&ist,&fb,&ost,&fw,&msprz};
 	arg(argc,argv,parametry);
 	istream in(ist->rdbuf());
+	ostream out(ost->rdbuf());
 	int n;
 	int lp;
 	int ww;
@@ -192,4 +211,5 @@ int main(int argc,char** argv){
 	double osg=uczenie(it,x,l,lp,ww,alfa,w,eps,dbg);
 	
 	cout<<"Blad: "<<osg<<endl;
+	wypisz(out,w,ww);
 }
