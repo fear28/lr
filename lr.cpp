@@ -89,7 +89,7 @@ void arg(int argc, char** argv, par parametry){
 
 double uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps,bool dbg=false){
 	double osg;
-	double* b=new double[ww];
+	unique_ptr<double[]> b(new double[ww]);
 	for(int nit=1;nit<=it;nit++){
 		for(int i=0;i<ww;i++)
 			b[i]=0;
@@ -122,7 +122,6 @@ double uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, 
 		}
 		if(osg<eps) break;
 	}
-	delete b;
 	return osg;
 }
 
