@@ -19,10 +19,10 @@ double uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, 
 			double k=1/(1+exp(-a));
 			for(int j=0;j<ww;j++){
 				b[j]+=alfa*x[i][j]*(k-l[i]);
-				osg+=abs(k-l[i]);
+				osg+=std::abs(k-l[i]);
 			}
 			if(dbg)
-			std::cout<<"\tklasa "<<i<<"="<<k<<"~="<<(k>0.5?1:0)<<" powinno="<<l[i]<<std::endl;
+				std::cout<<"\tklasa "<<i<<"="<<k<<"~="<<(k>0.5?1:0)<<" powinno="<<l[i]<<std::endl;
 		}
 		if(dbg)
 			std::cout<<std::endl<<"Po itracji "<<nit<<" w={";
