@@ -193,6 +193,8 @@ int main(int argc,char** argv){
 			
 		}
 	}
+	delete[] tabsum;
+	delete[] tabsumtmp;
 	if(fb){
 		fb.close();
 	}
@@ -214,4 +216,11 @@ int main(int argc,char** argv){
 	if(fw){
 		fw.close();
 	}
+	delete[] w;
+	delete[] l;
+	for(int i=0;i<lp;i++){
+		delete[] x[i];
+	}
+	delete[] x;
+	
 }
