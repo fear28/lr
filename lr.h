@@ -14,6 +14,8 @@ typedef struct{
 	std::ostream** out;
 	std::ofstream* fw;
 	int* msprz;
+	std::istream** istp;
+	std::ifstream* fbp;
 } par;
 
 #endif //_LR_H_

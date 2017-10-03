@@ -3,8 +3,8 @@
 
 #include "data.hpp"
 
-void wypisz(std::ostream& out, double *w,int ww){
-	out<<ww<<std::setprecision(15)<<std::endl;
+void wypisz(std::ostream& out, double *w,int ww,int msprz){
+	out<<msprz<<" "<<ww<<std::setprecision(15)<<std::endl;
 	for(int i=0;i<ww;i++){
 		out<<w[i]<<" ";
 	}
@@ -24,6 +24,23 @@ int przygotuj_dane(double*** xt,int& lp,int** lt,std::istream& in,int msprz){
 	int ww=przygotuj_tabsum(tabsum,msprz,n);
 	for(int i=0;i<lp;i++){
 		in>>l[i];
+		przygotuj_wektor(&x[i],ww,tabsum,tabsumtmp,msprz,n,in);
+	}
+	delete[] tabsum;
+	delete[] tabsumtmp;
+	return ww;
+}
+
+int przygotuj_dane_bez_etykiety(double*** xt,int& lp,std::istream& in,int msprz){
+	int n;
+	in>>n;
+	in>>lp;
+	*xt=new double*[lp];
+	double** x=*xt;
+	int* tabsum=new int[msprz];
+	int* tabsumtmp=new int[msprz];
+	int ww=przygotuj_tabsum(tabsum,msprz,n);
+	for(int i=0;i<lp;i++){
 		przygotuj_wektor(&x[i],ww,tabsum,tabsumtmp,msprz,n,in);
 	}
 	delete[] tabsum;

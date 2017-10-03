@@ -49,7 +49,7 @@ int main(int argc,char** argv){
 	double osg=uczenie(it,x,l,lp,ww,alfa,w,eps,dbg);
 	
 	cout<<"Blad: "<<osg<<endl;
-	wypisz(out,w,ww);
+	wypisz(out,w,ww,msprz);
 	if(fw){
 		fw.close();
 	}
