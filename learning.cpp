@@ -16,7 +16,7 @@ double uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, 
 			for(int j=0;j<ww;j++){
 				a+=x[i][j]*w[j];
 			}
-			double k=1/(1+exp(-a));
+			double k=1/(1+std::exp(-a));
 			for(int j=0;j<ww;j++){
 				b[j]+=alfa*x[i][j]*(k-l[i]);
 				osg+=std::abs(k-l[i]);
