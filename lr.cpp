@@ -28,10 +28,22 @@ int main(int argc,char** argv){
 	arg(argc,argv,parametry);
 	istream in(ist->rdbuf());
 	ostream out(ost->rdbuf());
-	int* l;
 	double** x;
 	int lp;
-	int ww=przygotuj_dane(&x,lp,&l,in,msprz);
+	int n;
+	in>>n;
+	in>>lp;
+	int* l=new int[lp];
+	double** xraw=new double*[lp];
+	for(int j=0;j<lp;j++){
+		xraw[j]=new double[n];
+		in>>l[j];
+		for(int i=0;i<n;i++){
+			in>>xraw[j][i];
+		}
+	}
+	int ww=przygotuj_dane(&x,lp,xraw,msprz,n);
+	delete[] xraw;
 	if(fb){
 		fb.close();
 	}

@@ -29,10 +29,20 @@ int main(int argc,char** argv){
 	istream inp(istp->rdbuf());
 	ostream out(ost->rdbuf());
 	double** x;
-	int lp;
 	int msprz;
 	in>>msprz;
-	int ww=przygotuj_dane_bez_etykiety(&x,lp,inp,msprz);
+	int lp,n;
+	inp>>n;
+	inp>>lp;
+	double** xraw=new double*[lp];
+	for(int j=0;j<lp;j++){
+		xraw[j]=new double[n];
+		for(int i=0;i<n;i++){
+			inp>>xraw[j][i];
+		}
+	}
+	
+	int ww=przygotuj_dane(&x,lp,xraw,n,msprz);
 	if(fbp){
 		fbp.close();
 	}
@@ -61,10 +71,6 @@ int main(int argc,char** argv){
 	for(int i=0;i<lp;i++){
 		out<<c[i]<<endl;
 	}
-//	double osg=uczenie(it,x,l,lp,ww,alfa,w,eps,dbg);
-	
-//	cout<<"Blad: "<<osg<<endl;
-//	wypisz(out,w,ww);
 	if(fw){
 		fw.close();
 	}
