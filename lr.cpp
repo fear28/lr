@@ -17,6 +17,7 @@ using namespace std;
 int main(int argc,char** argv){
 	int it=1000;
 	int msprz=2;
+	mnoz mn={msprz,NULL};
 	bool dbg=false;
 	double alfa=1;
 	double eps=0.0001;
@@ -24,10 +25,18 @@ int main(int argc,char** argv){
 	ostream* ost=&cout;
 	ifstream fb;
 	ofstream fw;
-	par parametry={&it,&dbg,&alfa,&eps,&ist,&fb,&ost,&fw,&msprz};
+	par parametry={&it,&dbg,&alfa,&eps,&ist,&fb,&ost,&fw,&mn};
 	arg(argc,argv,parametry);
 	istream in(ist->rdbuf());
 	ostream out(ost->rdbuf());
+	prost* pro=parametry.m->p;
+	while(pro!=NULL){
+		cerr<<pro->n<<" "<<pro->p<<" "<<pro->k<<" ";
+		for(int i=0;i<pro->n;i++)
+		cerr<<pro->w[i]<<" ";
+		cerr<<endl;
+		pro=pro->nast;
+	}
 	double** x;
 	int lp;
 	int n;
@@ -42,7 +51,7 @@ int main(int argc,char** argv){
 			in>>xraw[j][i];
 		}
 	}
-	int ww=przygotuj_dane(&x,lp,xraw,msprz,n);
+	int ww=przygotuj_dane(&x,lp,xraw,n,mn);
 	delete[] xraw;
 	if(fb){
 		fb.close();

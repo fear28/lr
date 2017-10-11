@@ -4,6 +4,20 @@
 #include <istream>
 #include <fstream>
 
+typedef struct prost{
+	prost* nast;
+	int p;
+	int k;
+	int n;
+	int* w;
+	int* wpod;
+} prost;
+typedef struct{
+	int msprz;
+	prost* p;
+} mnoz;
+
+
 typedef struct{
 	int* it;
 	bool* dbg;
@@ -13,7 +27,8 @@ typedef struct{
 	std::ifstream* fb;
 	std::ostream** out;
 	std::ofstream* fw;
-	int* msprz;
+//	int* msprz;
+	mnoz* m;
 	std::istream** istp;
 	std::ifstream* fbp;
 } par;

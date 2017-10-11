@@ -47,14 +47,6 @@ void arg(int argc, char** argv, par parametry){
 			argc--;
 			continue;
 		}
-		if(strcmp("-msprz", argv[1])==0){
-			argv++;
-			argc--;
-			*parametry.msprz=atoi(argv[1]);
-			argv++;
-			argc--;
-			continue;
-		}
 		if(strcmp("-Debug", argv[1])==0){
 			*parametry.dbg=true;
 			argv++;

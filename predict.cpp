@@ -34,6 +34,7 @@ int main(int argc,char** argv){
 	int lp,n;
 	inp>>n;
 	inp>>lp;
+	mnoz mn={msprz, NULL};
 	double** xraw=new double*[lp];
 	for(int j=0;j<lp;j++){
 		xraw[j]=new double[n];
@@ -42,7 +43,7 @@ int main(int argc,char** argv){
 		}
 	}
 	
-	int ww=przygotuj_dane(&x,lp,xraw,n,msprz);
+	int ww=przygotuj_dane(&x,lp,xraw,n,mn);
 	if(fbp){
 		fbp.close();
 	}

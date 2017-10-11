@@ -54,9 +54,38 @@ void arg(int argc, char** argv, par parametry){
 		if(strcmp("-msprz", argv[1])==0){
 			argv++;
 			argc--;
-			*parametry.msprz=atoi(argv[1]);
+			parametry.m->msprz=atoi(argv[1]);
 			argv++;
 			argc--;
+			continue;
+		}
+		if(strcmp("-prost", argv[1])==0){
+			argv++;
+			argc--;
+			prost* p=new prost;
+			p->nast=parametry.m->p;
+			parametry.m->p=p;
+			p->p=atoi(argv[1]);
+			argv++;
+			argc--;
+			p->k=atoi(argv[1]);
+			argv++;
+			argc--;
+			p->n=atoi(argv[1]);
+			argv++;
+			argc--;
+			p->w=new int[p->n];
+			for(int i=0;i<p->n;i++){
+				p->w[i]=atoi(argv[1]);
+				argv++;
+				argc--;
+			}
+			p->wpod=new int[p->n];
+			for(int i=0;i<p->n;i++){
+				p->wpod[i]=atoi(argv[1]);
+				argv++;
+				argc--;
+			}
 			continue;
 		}
 		if(strcmp("-alfa", argv[1])==0){
