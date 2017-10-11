@@ -4,8 +4,24 @@
 #include "data.hpp"
 #include "lr.h"
 
-void wypisz(std::ostream& out, double *w,int ww,int msprz){
-	out<<msprz<<" "<<ww<<std::setprecision(15)<<std::endl;
+void wypisz(std::ostream& out, double *w,int ww,int msprz,int lpro,prost* p){
+	out<<msprz<<" "<<lpro<<std::endl;
+	
+	while(p!=NULL){
+		out<<p->p<<" "<<p->n<<std::endl;
+		for(int i=0;i<p->n;i++){
+			out<<p->w[i]<<" ";
+			
+		}
+		out<<std::endl;
+		for(int i=0;i<p->n;i++){
+			
+			out<<p->wpod[i]<<" ";
+		}
+		p=p->nast;
+	}
+	
+	out<<ww<<std::setprecision(15)<<std::endl;
 	for(int i=0;i<ww;i++){
 		out<<w[i]<<" ";
 	}

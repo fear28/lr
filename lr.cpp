@@ -30,11 +30,9 @@ int main(int argc,char** argv){
 	istream in(ist->rdbuf());
 	ostream out(ost->rdbuf());
 	prost* pro=parametry.m->p;
+	int lpro=0;
 	while(pro!=NULL){
-		cerr<<pro->n<<" "<<pro->p<<" "<<pro->k<<" ";
-		for(int i=0;i<pro->n;i++)
-		cerr<<pro->w[i]<<" ";
-		cerr<<endl;
+		lpro++;
 		pro=pro->nast;
 	}
 	double** x;
@@ -70,7 +68,7 @@ int main(int argc,char** argv){
 	double osg=uczenie(it,x,l,lp,ww,alfa,w,eps,dbg);
 	
 	cout<<"Blad: "<<osg<<endl;
-	wypisz(out,w,ww,msprz);
+	wypisz(out,w,ww,mn.msprz,lpro,mn.p);
 	if(fw){
 		fw.close();
 	}

@@ -29,12 +29,35 @@ int main(int argc,char** argv){
 	istream inp(istp->rdbuf());
 	ostream out(ost->rdbuf());
 	double** x;
-	int msprz;
+	int msprz,lpro;
 	in>>msprz;
+	in>>lpro;
+	mnoz mn={msprz, NULL};
+	if(lpro>0){
+		mn.p=new prost;
+		prost* p=mn.p;
+		for(int i=0;i<lpro;i++){
+			in>>p->p;
+			in>>p->n;
+			p->w=new int[p->n];
+			p->wpod=new int[p->n];
+			for(int i=0;i<p->n;i++){
+				in>>p->w[i];
+			}
+			for(int i=0;i<p->n;i++){
+				in>>p->wpod[i];
+			}
+			if(i!=lpro-1){
+				p->nast=new prost;
+				p=p->nast;
+			}else{
+				p->nast=NULL;
+			}
+		}
+	}
 	int lp,n;
 	inp>>n;
 	inp>>lp;
-	mnoz mn={msprz, NULL};
 	double** xraw=new double*[lp];
 	for(int j=0;j<lp;j++){
 		xraw[j]=new double[n];

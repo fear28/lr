@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS= --std=c++11  -g
+CFLAGS= --std=c++11  -O2
 LIBS= 
 
 all: lr predict

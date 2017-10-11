@@ -3,7 +3,7 @@
 #include <iostream>
 #include "lr.h"
 
-void wypisz(std::ostream& out, double *w,int ww,int msprz);
+void wypisz(std::ostream& out, double *w,int ww,int msprz,int lpro,prost* p);
 
 void wymn(int* podw,int* w,int p,int n,double* x,int it);
 int przygotuj_dane(double*** xt,int lp,double** xraw,int n,mnoz m);
