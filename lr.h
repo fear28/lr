@@ -31,6 +31,7 @@ typedef struct{
 	mnoz* m;
 	std::istream** istp;
 	std::ifstream* fbp;
+	int* multi;
 } par;
 
 #endif //_LR_H_

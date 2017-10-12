@@ -4,6 +4,7 @@
 //#include <fstream>
 #include <cstring>
 #include <iomanip>
+#include <thread>
 
 #include "lr.h"
 #include "arg.hpp"
@@ -19,13 +20,14 @@ int main(int argc,char** argv){
 	int msprz=2;
 	mnoz mn={msprz,NULL};
 	bool dbg=false;
+	int multi=1;
 	double alfa=1;
 	double eps=0.0001;
 	istream* ist=&cin;
 	ostream* ost=&cout;
 	ifstream fb;
 	ofstream fw;
-	par parametry={&it,&dbg,&alfa,&eps,&ist,&fb,&ost,&fw,&mn};
+	par parametry={&it,&dbg,&alfa,&eps,&ist,&fb,&ost,&fw,&mn,NULL,NULL,&multi};
 	arg(argc,argv,parametry);
 	istream in(ist->rdbuf());
 	ostream out(ost->rdbuf());
@@ -65,8 +67,29 @@ int main(int argc,char** argv){
 	for(int i=0;i<ww;i++){
 		w[i]=0;
 	}
-	double osg=uczenie(it,x,l,lp,ww,alfa,w,eps,dbg);
-	
+	double osg;
+	if(multi==1){
+	osg=uczenie(it,x,l,lp,ww,alfa,w,eps,dbg);
+	}
+	else{
+		int thread=multi;
+		Barrier bar(thread);
+		double* b=new double[lp];
+		std::thread t[thread];
+		double osg2;
+		cerr<<"ww "<<ww<<" lp "<<lp<<endl;
+		for (int i = 0; i < thread; ++i) {
+			t[i] = std::thread(multi_uczenie,it,x,l,lp,ww,alfa,w,eps,(lp)*i/thread,(lp)*(i+1)/thread,(ww)*i/thread,(ww)*(i+1)/thread,&bar,b,&osg2,i,dbg);
+		}
+		
+		
+		for (int i = 0; i < thread; ++i) {
+			t[i].join();
+		}
+		osg=osg2;
+		delete[] b;
+		//osg=multi_uczenie(it,x,l,lp,ww,alfa,w,eps,dbg);
+	}
 	cout<<"Blad: "<<osg<<endl;
 	wypisz(out,w,ww,mn.msprz,lpro,mn.p);
 	if(fw){

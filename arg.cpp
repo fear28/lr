@@ -33,6 +33,14 @@ void arg(int argc, char** argv, par parametry){
 			argc--;
 			continue;
 		}
+		if(strcmp("-multi", argv[1])==0){
+			argv++;
+			argc--;
+			*parametry.multi=atoi(argv[1]);
+			argv++;
+			argc--;
+			continue;
+		}
 		if(strcmp("-it", argv[1])==0){
 			
 			argv++;
