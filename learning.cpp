@@ -2,10 +2,41 @@
 #include <cmath>
 #include <memory>
 #include <atomic>
+#include <thread>
+
 #include "learning.hpp"
 
-void multi_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps,int pocz1,int kon1,int pocz2,int kon2,Barrier* bar,double* b , double volatile* osg,int id, bool dbg=false){
+
+
+double multi_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps, int thread=0, bool dbg=false){
+	//	int thread=multi;
+		if(thread==0){
+			thread=std::thread::hardware_concurrency();
+		}
+		Barrier bar(thread);
+		double osg;
+		double* b=new double[lp];
+		std::thread t[thread-1];
+		for (int i = 0; i < thread-1; ++i) {
+			t[i] = std::thread(multi_thread_uczenie,it,x,l,lp,ww,alfa,w,eps,(lp)*i/thread,(lp)*(i+1)/thread,(ww)*i/thread,(ww)*(i+1)/thread,&bar,b,&osg,i,dbg);
+		}
+		multi_thread_uczenie(it,x,l,lp,ww,alfa,w,eps,(lp)*(thread-1)/thread,(lp),(ww)*(thread-1)/thread,(ww),&bar,b,&osg,thread-1,dbg);
+		
+		for (int i = 0; i < thread-1; ++i) {
+			t[i].join();
+		}
+		delete[] b;
+		return osg;
+	
+}
+std::mutex mutex;
+
+void multi_thread_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps,int pocz1,int kon1,int pocz2,int kon2,Barrier* bar,double* b , double * osg,int id, bool dbg=false){
 	for(int nit=1;nit<=it;nit++){
+		bar->Wait();
+		if(id==0)
+			*osg=0;
+		double myosg=0;
 		for(int i=pocz1;i<kon1;i++)
 			b[i]=0;
 		
@@ -16,14 +47,14 @@ void multi_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double*
 			}
 			double k=1/(1+std::exp(-a));
 			b[i]=k-l[i];
+			myosg+=std::abs(b[i]);
 			if(dbg)
 				std::cout<<"\tklasa "<<i<<"="<<k<<"~="<<(k>0.5?1:0)<<" powinno="<<l[i]<<std::endl;
 		}
 		bar->Wait();
-		if(id==0){
-			*osg=0;
-			for(int i=0;i<lp;i++)
-				*osg+=std::abs(b[i]);
+		{
+			std::unique_lock<std::mutex> lock{mutex};
+			*osg+=myosg;
 		}
 		if(dbg)
 			std::cout<<std::endl<<"Po itracji "<<nit<<" w={";

@@ -1,7 +1,5 @@
 #include <iostream>
 #include <cmath>
-//#include <istream>
-//#include <fstream>
 #include <cstring>
 #include <iomanip>
 #include <thread>
@@ -69,26 +67,10 @@ int main(int argc,char** argv){
 	}
 	double osg;
 	if(multi==1){
-	osg=uczenie(it,x,l,lp,ww,alfa,w,eps,dbg);
+		osg=uczenie(it,x,l,lp,ww,alfa,w,eps,dbg);
 	}
 	else{
-		int thread=multi;
-		Barrier bar(thread);
-		double* b=new double[lp];
-		std::thread t[thread];
-		double osg2;
-		cerr<<"ww "<<ww<<" lp "<<lp<<endl;
-		for (int i = 0; i < thread; ++i) {
-			t[i] = std::thread(multi_uczenie,it,x,l,lp,ww,alfa,w,eps,(lp)*i/thread,(lp)*(i+1)/thread,(ww)*i/thread,(ww)*(i+1)/thread,&bar,b,&osg2,i,dbg);
-		}
-		
-		
-		for (int i = 0; i < thread; ++i) {
-			t[i].join();
-		}
-		osg=osg2;
-		delete[] b;
-		//osg=multi_uczenie(it,x,l,lp,ww,alfa,w,eps,dbg);
+		osg=multi_uczenie(it,x,l,lp,ww,alfa,w,eps,multi,dbg);
 	}
 	cout<<"Blad: "<<osg<<endl;
 	wypisz(out,w,ww,mn.msprz,lpro,mn.p);
