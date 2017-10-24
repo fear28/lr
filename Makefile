@@ -1,8 +1,14 @@
 CC = g++
-CFLAGS= --std=c++11  -O2 -g
+CFLAGS= --std=c++11  -O2
 LIBS= -pthread
 
+
 all: lr predict
+
+Debug: CFLAGS= --std=c++11 -g
+Debug: all
+
+
 
 lr: lr.o arg.o data.o learning.o
 	$(CC) $(LIBS) lr.o arg.o data.o learning.o -o lr  
