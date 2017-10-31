@@ -2,6 +2,8 @@
 #define _LEARNING_HPP_
 #include <condition_variable>
 
+
+namespace ml{
 class Barrier
 {
 private:
@@ -39,6 +41,7 @@ public:
 };
 
 double multi_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps, int thread, bool dbg);
-void multi_thread_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps,int pocz1,int kon1,int pocz2,int kon2,Barrier* bar,double* b,double* osg,int id,bool dbg);
+void multi_thread_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps,int pocz1,int kon1,int pocz2,int kon2,Barrier* bar,double* b,double* osg,int id,std::mutex* mutex,bool dbg);
 double uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps,bool dbg);
+}
 #endif //_LEARNING_HPP_

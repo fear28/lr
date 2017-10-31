@@ -10,7 +10,7 @@
 #include "learning.hpp"
 
 using namespace std;
-
+using namespace ml;
 
 
 int main(int argc,char** argv){

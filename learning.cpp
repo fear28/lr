@@ -6,21 +6,24 @@
 
 #include "learning.hpp"
 
-
+namespace ml{
 
 double multi_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps, int thread=0, bool dbg=false){
-	//	int thread=multi;
 		if(thread==0){
 			thread=std::thread::hardware_concurrency();
+			if(thread==0){
+				thread=4;
+			}
 		}
+		std::mutex* mutex=new std::mutex();
 		Barrier bar(thread);
 		double osg;
 		double* b=new double[lp];
 		std::thread t[thread-1];
 		for (int i = 0; i < thread-1; ++i) {
-			t[i] = std::thread(multi_thread_uczenie,it,x,l,lp,ww,alfa,w,eps,(lp)*i/thread,(lp)*(i+1)/thread,(ww)*i/thread,(ww)*(i+1)/thread,&bar,b,&osg,i,dbg);
+			t[i] = std::thread(multi_thread_uczenie,it,x,l,lp,ww,alfa,w,eps,(lp)*i/thread,(lp)*(i+1)/thread,(ww)*i/thread,(ww)*(i+1)/thread,&bar,b,&osg,i,mutex,dbg);
 		}
-		multi_thread_uczenie(it,x,l,lp,ww,alfa,w,eps,(lp)*(thread-1)/thread,(lp),(ww)*(thread-1)/thread,(ww),&bar,b,&osg,thread-1,dbg);
+		multi_thread_uczenie(it,x,l,lp,ww,alfa,w,eps,(lp)*(thread-1)/thread,(lp),(ww)*(thread-1)/thread,(ww),&bar,b,&osg,thread-1,mutex,dbg);
 		
 		for (int i = 0; i < thread-1; ++i) {
 			t[i].join();
@@ -29,9 +32,8 @@ double multi_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,doubl
 		return osg;
 	
 }
-std::mutex mutex;
 
-void multi_thread_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps,int pocz1,int kon1,int pocz2,int kon2,Barrier* bar,double* b , double * osg,int id, bool dbg=false){
+void multi_thread_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps,int pocz1,int kon1,int pocz2,int kon2,Barrier* bar,double* b , double * osg,int id,std::mutex* mutex, bool dbg=false){
 	for(int nit=1;nit<=it;nit++){
 		bar->Wait();
 		if(id==0)
@@ -53,7 +55,7 @@ void multi_thread_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,
 		}
 		bar->Wait();
 		{
-			std::unique_lock<std::mutex> lock{mutex};
+			std::unique_lock<std::mutex> lock{*mutex};
 			*osg+=myosg;
 		}
 		if(dbg)
@@ -111,4 +113,6 @@ double uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, 
 		if(osg<eps) break;
 	}
 	return osg;
+}
+
 }
