@@ -3,6 +3,7 @@
 
 #include <istream>
 #include <fstream>
+#include "learning.hpp"
 
 typedef struct prost{
 	prost* nast;
@@ -32,6 +33,8 @@ typedef struct{
 	std::istream** istp;
 	std::ifstream* fbp;
 	int* multi;
+	ml::kind_norm* norm;
+	double* beta;
 } par;
 
 #endif //_LR_H_

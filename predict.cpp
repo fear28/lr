@@ -6,7 +6,7 @@
 #include <cstring>
 #include <iomanip>
 
-#include "lr.h"
+#include "lr.hpp"
 #include "arg.hpp"
 #include "data.hpp"
 #include "classification.hpp"

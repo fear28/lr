@@ -104,6 +104,31 @@ void arg(int argc, char** argv, par parametry){
 			argc--;
 			continue;
 		}
+		if(strcmp("-beta", argv[1])==0){
+			argv++;
+			argc--;
+			*parametry.beta=atof(argv[1]);
+			argv++;
+			argc--;
+			continue;
+		}
+		if(strcmp("-norm", argv[1])==0){
+			argv++;
+			argc--;
+			if(strcmp("L1", argv[1])==0)
+				*parametry.norm=ml::L1;
+			else if(strcmp("L2", argv[1])==0)
+				*parametry.norm=ml::L2;
+			else if(strcmp("L0", argv[1])==0)
+				*parametry.norm=ml::L0;
+			else if(strcmp("Linf", argv[1])==0)
+				*parametry.norm=ml::Linf;
+			else
+				std::cerr<<"nieznana norma "<<argv[1]<<std::endl;
+			argv++;
+			argc--;
+			continue;
+		}
 		if(strcmp("-Debug", argv[1])==0){
 			*parametry.dbg=true;
 			argv++;

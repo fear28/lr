@@ -2,7 +2,7 @@
 #include <iomanip>
 
 #include "data.hpp"
-#include "lr.h"
+#include "lr.hpp"
 
 void wypisz(std::ostream& out, double *w,int ww,int msprz,int lpro,prost* p){
 	out<<msprz<<" "<<lpro<<std::endl;

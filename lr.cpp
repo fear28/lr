@@ -4,7 +4,7 @@
 #include <iomanip>
 #include <thread>
 
-#include "lr.h"
+#include "lr.hpp"
 #include "arg.hpp"
 #include "data.hpp"
 #include "learning.hpp"
@@ -21,11 +21,13 @@ int main(int argc,char** argv){
 	int multi=1;
 	double alfa=1;
 	double eps=0.0001;
+	kind_norm norm=L0;
+	double beta=0;
 	istream* ist=&cin;
 	ostream* ost=&cout;
 	ifstream fb;
 	ofstream fw;
-	par parametry={&it,&dbg,&alfa,&eps,&ist,&fb,&ost,&fw,&mn,NULL,NULL,&multi};
+	par parametry={&it,&dbg,&alfa,&eps,&ist,&fb,&ost,&fw,&mn,NULL,NULL,&multi,&norm,&beta};
 	arg(argc,argv,parametry);
 	istream in(ist->rdbuf());
 	ostream out(ost->rdbuf());
@@ -67,10 +69,10 @@ int main(int argc,char** argv){
 	}
 	double osg;
 	if(multi==1){
-		osg=uczenie(it,x,l,lp,ww,alfa,w,eps,dbg);
+		osg=uczenie(it,x,l,lp,ww,alfa,w,eps,norm,beta,dbg);
 	}
 	else{
-		osg=multi_uczenie(it,x,l,lp,ww,alfa,w,eps,multi,dbg);
+		osg=multi_uczenie(it,x,l,lp,ww,alfa,w,eps,multi,norm,beta,dbg);
 	}
 	cout<<"Blad: "<<osg<<endl;
 	wypisz(out,w,ww,mn.msprz,lpro,mn.p);

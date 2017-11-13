@@ -1,6 +1,6 @@
 #ifndef _ARG_HPP_
 #define _ARG_HPP_
-#include "lr.h"
+#include "lr.hpp"
 
 void arg(int argc, char** argv, par parametry);
 

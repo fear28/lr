@@ -40,8 +40,15 @@ public:
     }
 };
 
-double multi_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps, int thread, bool dbg);
-void multi_thread_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps,int pocz1,int kon1,int pocz2,int kon2,Barrier* bar,double* b,double* osg,int id,std::mutex* mutex,bool dbg);
-double uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps,bool dbg);
+enum kind_norm{
+	L0,
+	L1,
+	L2,
+	Linf
+};
+
+double multi_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps, int thread,kind_norm norm, double beta, bool dbg);
+void multi_thread_uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps,int pocz1,int kon1,int pocz2,int kon2,Barrier* bar,double* b,double* osg,int id,std::mutex* mutex,kind_norm norm,double* norm_var,double beta, bool dbg);
+double uczenie(int it, double** x,int* l,int lp, int ww, double alfa,double* w, double eps,kind_norm norm, double beta,bool dbg);
 }
 #endif //_LEARNING_HPP_

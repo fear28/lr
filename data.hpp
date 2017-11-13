@@ -1,7 +1,7 @@
 #ifndef _DATA_HPP_
 #define _DATA_HPP_
 #include <iostream>
-#include "lr.h"
+#include "lr.hpp"
 
 void wypisz(std::ostream& out, double *w,int ww,int msprz,int lpro,prost* p);
 
